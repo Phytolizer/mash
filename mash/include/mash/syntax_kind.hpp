@@ -5,6 +5,10 @@
 namespace mash {
 
 enum class syntax_kind {
+    // Marker tokens
+    bad_token,
+    end_of_file_token,
+
     // Special tokens (literals)
     quoted_string,
 
