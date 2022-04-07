@@ -14,24 +14,31 @@ class lexer {
   public:
     explicit inline lexer(icu::UnicodeString&& source) : m_source(std::move(source)) {}
 
-    class _ {
+    class token_collection {
         const icu::UnicodeString& m_source;
 
         friend class lexer;
-        explicit inline _(const icu::UnicodeString& source) : m_source(source) {}
+        explicit inline token_collection(const icu::UnicodeString& source) : m_source(source) {}
 
       public:
         class iterator {
             const icu::UnicodeString* m_source;
             icu::StringCharacterIterator m_iter;
+            std::size_t m_start;
+            std::size_t m_current;
+            icu::UnicodeString m_text;
+            syntax_kind m_kind;
             token m_just_scanned;
             bool m_end;
 
             token scan();
+            void scan_string();
+            void next();
 
-            friend class _;
+            friend class token_collection;
             explicit inline iterator(const icu::UnicodeString& source)
-                : m_source(&source), m_iter(source), m_just_scanned(scan()), m_end(false) {}
+                : m_source(&source), m_iter(source), m_start(0), m_current(0),
+                  m_just_scanned(scan()), m_end(false) {}
 
           public:
             using difference_type = std::ptrdiff_t;
@@ -52,6 +59,12 @@ class lexer {
                 ++(*this);
                 return it;
             }
+            constexpr bool operator==(const iterator& other) const {
+                if (m_end) {
+                    return other.m_end;
+                }
+                return m_source == other.m_source && m_current == other.m_current;
+            }
         };
 
         static_assert(std::input_iterator<iterator>);
@@ -64,7 +77,7 @@ class lexer {
         }
     };
 
-    _ tokens() const;
+    token_collection tokens() const;
 };
 
 } // namespace mash
