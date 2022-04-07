@@ -1,5 +1,5 @@
 # Comments start with '#'.
-# Importing modules is done with 'import'.
+# Importing modules is done with the 'from'/'import' clause.
 # Statements end with '.'.
 # Keywords are case-insensitive.
 From "std/io":
