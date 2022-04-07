@@ -2,10 +2,11 @@
 # Importing modules is done with 'import'.
 # Statements end with '.'.
 # Keywords are case-insensitive.
-Import "std/io".
+From "std/io":
+    Import "say".
 
 # Processes (functions) are defined with the 'process' keyword.
-# You may specify arguments with the 'with' keyword, 
+# You may specify arguments with the 'with' keyword,
 # followed by the set of arguments.
 Process "say hello" with (name: "string") is:
     # Calling a process is done with 'execute'.
