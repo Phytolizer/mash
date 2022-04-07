@@ -7,3 +7,5 @@ project(
     DESCRIPTION "Mash is a mash of many languages into one."
     HOMEPAGE_URL "https://github.com/Phytolizer/mash"
 )
+
+add_subdirectory("mashc")
