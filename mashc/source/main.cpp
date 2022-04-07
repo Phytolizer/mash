@@ -2,7 +2,7 @@
 #include <mash/lexer.hpp>
 
 int main() {
-    mash::lexer lex{icu::UnicodeString::fromUTF8("():.")};
+    mash::lexer lex{icu::UnicodeString{u"():."}};
 
     for (mash::token tok : lex.tokens()) {
         std::string raw_text;

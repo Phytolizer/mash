@@ -9,23 +9,23 @@ mash::token mash::lexer::token_collection::iterator::scan() {
         case icu::StringCharacterIterator::DONE:
             m_kind = syntax_kind::end_of_file_token;
             break;
-        case L':':
+        case u':':
             m_kind = syntax_kind::colon_token;
             next();
             break;
-        case L'.':
+        case u'.':
             m_kind = syntax_kind::period_token;
             next();
             break;
-        case L'(':
+        case u'(':
             m_kind = syntax_kind::open_parenthesis_token;
             next();
             break;
-        case L')':
+        case u')':
             m_kind = syntax_kind::close_parenthesis_token;
             next();
             break;
-        case L'"':
+        case u'"':
             m_kind = syntax_kind::quoted_string;
             scan_string();
             break;
@@ -40,10 +40,10 @@ mash::token mash::lexer::token_collection::iterator::scan() {
 void mash::lexer::token_collection::iterator::scan_string() {
     while (true) {
         char16_t curr = m_iter.current();
-        if (curr == L'\n' || curr == icu::StringCharacterIterator::DONE) {
+        if (curr == u'\n' || curr == icu::StringCharacterIterator::DONE) {
             break;
         }
-        if (curr == L'"') {
+        if (curr == u'"') {
             next();
             break;
         }
