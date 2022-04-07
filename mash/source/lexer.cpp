@@ -36,7 +36,7 @@ mash::token mash::lexer::token_collection::iterator::scan() {
 void mash::lexer::token_collection::iterator::scan_string() {
     while (true) {
         char16_t curr = m_iter.current();
-        if (curr == L'\n') {
+        if (curr == L'\n' || curr == icu::StringCharacterIterator::DONE) {
             break;
         }
         if (curr == L'"') {
