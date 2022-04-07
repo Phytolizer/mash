@@ -1,0 +1,64 @@
+{
+    "version": 3,
+    "configurePresets": [
+        {
+            "name": "dev-base",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
+            }
+        },
+        {
+            "name": "warning-flags-gcc-clang",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_CXX_FLAGS": "-Wall -Wextra -Wpedantic"
+            }
+        },
+        {
+            "name": "warning-flags-msvc",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_CXX_FLAGS": "/W4"
+            }
+        },
+        {
+            "name": "dist-base",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "dist-ninja",
+            "displayName": "Distribution (Ninja)",
+            "description": "Build for distribution with Ninja",
+            "generator": "Ninja",
+            "binaryDir": "build/dist-ninja",
+            "inherits": ["dist-base"]
+        },
+        {
+            "name": "dist-msvc2022",
+            "displayName": "Distribution (Visual Studio 2022)",
+            "description": "Build for distribution with Visual Studio 2022",
+            "generator": "Visual Studio 17 2022",
+            "binaryDir": "build/dist-msvc2022",
+            "inherits": ["dist-base"]
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "dist-ninja",
+            "displayName": "Distribution (Ninja)",
+            "description": "Build for distribution with Ninja",
+            "configurePreset": "dist-ninja"
+        },
+        {
+            "name": "dist-msvc2022",
+            "displayName": "Distribution (Visual Studio 2022)",
+            "description": "Build for distribution with Visual Studio 2022",
+            "configurePreset": "dist-msvc2022"
+        }
+    ]
+}

@@ -1,0 +1,3 @@
+# Declaration files end with '.mashd'.
+Module "hello" contains:
+    Process "say hello" with (name: "string").

@@ -1,0 +1,16 @@
+# Comments start with '#'.
+# Importing modules is done with 'import'.
+# Statements end with '.'.
+# Keywords are case-insensitive.
+Import "std/io".
+
+# Processes (functions) are defined with the 'process' keyword.
+# You may specify arguments with the 'with' keyword, 
+# followed by the set of arguments.
+Process "say hello" with (name: "string") is:
+    # Calling a process is done with 'execute'.
+    # String concatenation is done with '&'.
+    Execute "say" with ("hello " & name).
+
+# The classic example.
+Execute "say hello" with ("world").
