@@ -2,6 +2,7 @@
 
 mash::token mash::lexer::token_collection::iterator::scan() {
     m_start = m_current;
+    m_text = "";
     m_kind = syntax_kind::bad_token;
 
     switch (m_iter.current()) {
@@ -30,6 +31,9 @@ mash::token mash::lexer::token_collection::iterator::scan() {
             break;
     }
 
+    if (m_kind == syntax_kind::end_of_file_token) {
+        m_end = true;
+    }
     return {m_kind, std::move(m_text), m_start};
 }
 
