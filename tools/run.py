@@ -37,4 +37,4 @@ subprocess.run(["cmake", "--build", "--preset", preset],
                check=True, env=devenv)
 # Run the final executable
 if args.run:
-    subprocess.run("build/derditor" + (".exe" if os.name == "nt" else ""))
+    subprocess.run("build/mashc/mashc" + (".exe" if os.name == "nt" else ""))
