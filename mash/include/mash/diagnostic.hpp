@@ -4,6 +4,6 @@
 
 namespace mash {
 
-using diagnostic = std::u32string;
+using diagnostic = std::string;
 
 }

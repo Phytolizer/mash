@@ -14,12 +14,6 @@ int main() {
     }
 
     for (const mash::diagnostic& diagnostic : lex.diagnostics()) {
-        std::string diagnostic_text;
-        icu::UnicodeString unicode_text;
-        for (char32_t c : diagnostic) {
-            unicode_text.append((UChar32)c);
-        }
-        unicode_text.toUTF8String(diagnostic_text);
-        fmt::print("{}", diagnostic_text);
+        fmt::print("{}\n", diagnostic);
     }
 }
