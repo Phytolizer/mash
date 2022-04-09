@@ -7,7 +7,7 @@
 
 namespace mash {
 
-struct token final {
+struct token {
     syntax_kind kind;
     icu::UnicodeString text;
     std::size_t position;

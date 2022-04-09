@@ -1,8 +1,12 @@
 #pragma once
 
+#include "mash/diagnostic.hpp"
+#include "mash/diagnostic_bag.hpp"
 #include "mash/token.hpp"
 
 #include <concepts>
+#include <gsl/pointers>
+#include <span>
 #include <unicode/schriter.h>
 #include <unicode/unistr.h>
 
@@ -10,18 +14,23 @@ namespace mash {
 
 class lexer {
     icu::UnicodeString m_source;
+    diagnostic_bag m_diagnostics;
 
   public:
     explicit inline lexer(icu::UnicodeString&& source) : m_source(std::move(source)) {}
 
     class token_collection {
+        diagnostic_bag& m_diagnostics;
         const icu::UnicodeString& m_source;
 
         friend class lexer;
-        explicit inline token_collection(const icu::UnicodeString& source) : m_source(source) {}
+        explicit inline token_collection(
+                diagnostic_bag& diagnostics, const icu::UnicodeString& source)
+            : m_diagnostics(diagnostics), m_source(source) {}
 
       public:
         class iterator {
+            diagnostic_bag* m_diagnostics;
             const icu::UnicodeString* m_source;
             icu::StringCharacterIterator m_iter;
             std::size_t m_start;
@@ -36,9 +45,10 @@ class lexer {
             void next();
 
             friend class token_collection;
-            explicit inline iterator(const icu::UnicodeString& source)
-                : m_source(&source), m_iter(source), m_start(0), m_current(0),
-                  m_just_scanned(scan()), m_end(false) {}
+            explicit inline iterator(
+                    gsl::not_null<diagnostic_bag*> diagnostics, const icu::UnicodeString& source)
+                : m_diagnostics(diagnostics), m_source(&source), m_iter(source), m_start(0),
+                  m_current(0), m_just_scanned(scan()), m_end(false) {}
 
           public:
             using difference_type = std::ptrdiff_t;
@@ -70,14 +80,15 @@ class lexer {
         static_assert(std::input_iterator<iterator>);
 
         iterator begin() const {
-            return iterator{m_source};
+            return iterator{&m_diagnostics, m_source};
         }
         iterator end() const {
             return iterator{};
         }
     };
 
-    token_collection tokens() const;
+    mash::lexer::token_collection tokens();
+    std::span<const diagnostic> diagnostics() const;
 };
 
 } // namespace mash
