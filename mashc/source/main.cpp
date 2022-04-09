@@ -20,7 +20,6 @@ int main() {
             unicode_text.append((UChar32)c);
         }
         unicode_text.toUTF8String(diagnostic_text);
-        std::cout << diagnostic_text << '\n';
         fmt::print("{}", diagnostic_text);
     }
 }
