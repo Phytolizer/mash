@@ -20,7 +20,8 @@
             "name": "warning-flags-msvc",
             "hidden": true,
             "cacheVariables": {
-                "CMAKE_CXX_FLAGS": "/W4"
+                "CMAKE_CXX_FLAGS": "/W4 /EHsc",
+                "CMAKE_MSVC_RUNTIME_LIBRARY": "MultiThreadedDebug"
             }
         },
         {
