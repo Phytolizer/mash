@@ -1,5 +1,7 @@
 #include "mash/lexer.hpp"
 
+#include <unicode/uchar.h>
+
 mash::token mash::lexer::token_collection::iterator::scan() {
     m_start = m_current;
     m_text = u"";
@@ -29,6 +31,11 @@ mash::token mash::lexer::token_collection::iterator::scan() {
             m_kind = syntax_kind::quoted_string;
             scan_string();
             break;
+        default:
+            if (u_isalpha(m_iter.current())) {
+                m_kind = syntax_kind::identifier_token;
+                scan_identifier();
+            }
     }
 
     if (m_kind == syntax_kind::bad_token) {
@@ -42,8 +49,10 @@ mash::token mash::lexer::token_collection::iterator::scan() {
 }
 
 void mash::lexer::token_collection::iterator::scan_string() {
+    next();
+
     while (true) {
-        char32_t curr = m_iter.current32();
+        UChar32 curr = m_iter.current32();
         if (curr == U'\n' || curr == icu::StringCharacterIterator::DONE) {
             break;
         }
@@ -53,6 +62,36 @@ void mash::lexer::token_collection::iterator::scan_string() {
         }
 
         next();
+    }
+}
+
+void mash::lexer::token_collection::iterator::scan_identifier() {
+    while (true) {
+        UChar32 curr = m_iter.current32();
+        if (curr == icu::StringCharacterIterator::DONE) {
+            break;
+        }
+        if (u_isalpha(curr) || u_isdigit(curr) || curr == U'_') {
+            next();
+            continue;
+        }
+        break;
+    }
+
+    if (m_text == u"contains") {
+        m_kind = syntax_kind::contains_keyword;
+    } else if (m_text == u"from") {
+        m_kind = syntax_kind::from_keyword;
+    } else if (m_text == u"import") {
+        m_kind = syntax_kind::import_keyword;
+    } else if (m_text == u"is") {
+        m_kind = syntax_kind::is_keyword;
+    } else if (m_text == u"module") {
+        m_kind = syntax_kind::module_keyword;
+    } else if (m_text == u"process") {
+        m_kind = syntax_kind::process_keyword;
+    } else if (m_text == u"with") {
+        m_kind = syntax_kind::with_keyword;
     }
 }
 

@@ -11,6 +11,7 @@ enum class syntax_kind {
 
     // Special tokens (literals)
     quoted_string,
+    identifier_token,
 
     // Keywords
     contains_keyword,

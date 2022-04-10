@@ -42,6 +42,7 @@ class lexer {
 
             token scan();
             void scan_string();
+            void scan_identifier();
             void next();
 
             friend class token_collection;
