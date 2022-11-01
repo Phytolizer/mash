@@ -8,7 +8,7 @@ From "std/io":
 # Processes (functions) are defined with the 'process' keyword.
 # You may specify arguments with the 'with' keyword,
 # followed by the set of arguments.
-Process "say hello" with (name: "string") is:
+Procedure "say hello" with (name: "string") is:
     # Calling a process is done with 'execute'.
     # String concatenation is done with '&'.
     Execute "say" with ("hello " & name).
