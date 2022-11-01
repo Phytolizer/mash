@@ -5,11 +5,11 @@
 From "std/io":
     Import "say".
 
-# Processes (functions) are defined with the 'process' keyword.
+# Procedures (functions) are defined with the 'procedure' keyword.
 # You may specify arguments with the 'with' keyword,
 # followed by the set of arguments.
 Procedure "say hello" with (name: "string") is:
-    # Calling a process is done with 'execute'.
+    # Calling a procedure is done with 'execute'.
     # String concatenation is done with '&'.
     Execute "say" with ("hello " & name).
 
